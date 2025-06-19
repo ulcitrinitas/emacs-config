@@ -182,13 +182,13 @@
   (telephone-line-mode 1)
 #+end_src
 
-
-
-
-
-
-
-
+** Company mode
+#+begin_src emacs-lisp
+  (use-package company
+    :init
+    (global-company-mode)
+  )
+#+end_src
 
 
 
