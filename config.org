@@ -62,7 +62,7 @@
   	 )
 #+end_src
 
- ** Quebra de linha
+** Quebra de linha
  
 #+begin_src emacs-lisp
   (global-visual-line-mode t)
