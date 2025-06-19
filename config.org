@@ -31,13 +31,13 @@
 #+begin_src emacs-lisp
   (global-display-line-numbers-mode t)
   (column-number-mode t)
-  (setq display-line-numbers-mode 'relative)
-  (dolist (mode '(org-mode-hook
-  				vterm-mode-hook
+  ;; (setq display-line-numbers-mode 'relative)
+  (dolist (mode '(vterm-mode-hook
+  				;; org-mode-hook
   				term-mode-hook
   				shell-mode-hook
   				eshell-mode-hook))
-    (add-hook mode (lambda () (display-line-numbers-mode 0))))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 #+end_src
 
 ** Mostra a linha atual e sinaliza os limites
@@ -125,9 +125,9 @@
 
 #+begin_src emacs-lisp
   (setq-default tab-width 4)
+  (setq-default indent-tabs-mode nil)
 #+end_src
 
-** 
 
 
 * Instalação de Pacotes
