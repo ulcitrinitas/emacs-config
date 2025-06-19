@@ -166,6 +166,13 @@
     (auto-package-update-at-time "21:00"))
 #+end_src
 
+** Telephone line
+#+begin_src emacs-lisp
+  (use-package telephone-line
+    :custom
+    (telephone-line-mode 1)
+   )
+#+end_src
 
 
 
