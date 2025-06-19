@@ -1,0 +1,179 @@
+#+title: Configurações do emacs (EDZ)
+#+author: Ulisses dos Santos Cardoso da Silva
+
+* Preparação
+ - Instalar o emacs
+ - Criar arquivo =~/.emacs.d/init.el=
+ - Criar o arquivo =~/.emacs.d/config.org=
+
+* Conteúdo de =init.el=
+#+begin_example
+(org-babel-load-file
+ (expand-file-name "config.org" user-emacs-directory))
+#+end_example
+
+* Configurações gerais
+** Desabilitar tela de inicio (scratch)
+#+begin_src emacs-lisp
+  (setq inhibit-startup-message t)
+#+end_src
+
+** Configurações de interface
+
+#+begin_src emacs-lisp
+  (scroll-bar-mode -1) ;; oculta a barra de rolagem
+  (tool-bar-mode -1) ;; oculta a barra de ferramentas
+  (tooltip-mode -1) ;; oculta as mensagens
+  ;; (menu-bar-mode)
+#+end_src
+
+** Números nas linhas, mostra linha atual e sinaliza os limites
+#+begin_src emacs-lisp
+  (global-display-line-numbers-mode t) ;; mostra a linha de numeros
+  (column-number-mode t)
+  (global-hl-line-mode t)
+  (setq visible-bell t)
+#+end_src
+
+** Configurações da fonte
+  
+#+begin_src emacs-lisp
+  (set-face-attribute 'default nil :font "JetBrainsMono Nerd Font" :height 151)
+#+end_src
+
+** Usa o <Esc> pra sair dos prompt
+#+begin_src emacs-lisp
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+#+end_src
+
+** Desabilita teclas
+#+begin_src emacs-lisp
+  (global-unset-key (kbd "C-z")) ;; desabilita Ctrl-z (suspend frame)
+  (delete-selection-mode t) ;; o  texto digitado substitui a seleção
+#+end_src
+
+** Rolagem suave
+        
+#+begin_src emacs-lisp
+  (setq mouse-wheel-scroll-amount '(5 ((shift) .1)) ;; 2 linhas por vez
+  	  mouse-wheel-progressive-speed nil ;; Não acelera a rolagem
+  	  mouse-wheel-follow-mouse 't ;; rola a janela do mouse
+  	  scroll-step 1 ;; rola 1 linha com teclado
+  	 )
+#+end_src
+
+ ** Quebra de linha
+ 
+#+begin_src emacs-lisp
+  (global-visual-line-mode t)
+#+end_src
+
+** Diretório dos arquivos de backup
+   
+#+begin_src emacs-lisp
+  (setq backup-directory-alist `(("." . "~/.esaves")))
+#+end_src
+
+** Tema
+
+#+begin_src emacs-lisp
+  (load-theme 'modus-vivendi t)
+
+  (org-indent-mode t)
+#+end_src
+
+** Configurações do cursor
+
+#+begin_src emacs-lisp
+  (setq-default cursor-type 'bar);; altera o formato do cursor
+  (save-place-mode 1)
+#+end_src
+
+** Cria um buffer customizado na tela inicial
+#+begin_src emacs-lisp
+   ;; Função pra criar um novo buffer
+   (defun new-buffer()
+      "Cria um novo buffer"
+      (interactive)
+      (let ((citri/buf (generate-new-buffer "sem-nome")))
+        (switch-to-buffer citri/buf)
+        (funcall initial-major-mode)
+        (setq buffer-offer-save t)
+        citri/buf))
+  (setq initial-major-mode 'prog-mode)
+  (setq initial-buffer-choice 'new-buffer)
+#+end_src
+
+** Arquivos Recentes e salvamento do histórico
+#+begin_src emacs-lisp
+  (recentf-mode t)
+  (savehist-mode t)
+#+end_src
+
+** Altera o padrão das tabulações
+
+#+begin_src emacs-lisp
+  (setq-default tab-width 4)
+#+end_src
+
+* Instalação de Pacotes
+
+** Incializa o package.el
+
+#+begin_src emacs-lisp
+  (require 'package)
+
+#+end_src
+
+** Define os Repositórios
+
+#+begin_src emacs-lisp
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+  						 ("org"   . "https://orgmode.org/elpa/")
+  						 ("elpa"  . "https://elpa.gnu.org/packages/")
+  ))
+#+end_src
+
+** Atualiza os repositórios
+
+#+begin_src emacs-lisp
+
+  (package-initialize)
+  (unless package-archive-contents
+    (package-refresh-contents)
+   )
+#+end_src
+
+** Instala o use-package
+
+#+begin_src emacs-lisp
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+#+end_src
+
+** Instala o auto-package-update
+#+begin_src emacs-lisp
+  (use-package auto-package-update
+    :custom
+    (auto-package-update-interval 5)
+    (auto-package-update-prompt-before-update t)
+    (auto-package-update-hide-results t)
+    :config
+    (auto-package-update-maybe)
+    (auto-package-update-at-time "21:00"))
+#+end_src
+
+
+
+
+
+
+
+
+
+
+
+
+
