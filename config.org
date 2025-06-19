@@ -166,6 +166,13 @@
     (auto-package-update-at-time "21:00"))
 #+end_src
 
+** Pacote icones
+
+#+begin_src emacs-lisp
+  (use-package all-the-icons
+  :if (display-graphic-p))
+#+end_src
+
 ** Telephone line
 #+begin_src emacs-lisp
   (use-package telephone-line)
@@ -182,6 +189,7 @@
   (telephone-line-mode 1)
 #+end_src
 
+
 ** Company mode
 #+begin_src emacs-lisp
   (use-package company
@@ -189,6 +197,31 @@
     (global-company-mode)
   )
 #+end_src
+
+** Company box
+#+begin_src emacs-lisp
+(use-package company-box
+  :hook (company-mode . company-box-mode))
+#+end_src
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
