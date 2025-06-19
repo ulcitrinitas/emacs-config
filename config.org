@@ -88,8 +88,7 @@
 ** Tema
 
 #+begin_src emacs-lisp
-  (load-theme 'modus-vivendi t)
-
+  ;;(load-theme 'modus-vivendi t)
   (org-indent-mode t)
 #+end_src
 
@@ -127,8 +126,6 @@
   (setq-default tab-width 4)
   (setq-default indent-tabs-mode nil)
 #+end_src
-
-
 
 * Instalação de Pacotes
 
@@ -211,6 +208,20 @@
 (use-package company-box
   :hook (company-mode . company-box-mode))
 #+end_src
+
+** Catppucin theme
+
+#+begin_src emacs-lisp
+
+  (use-package catppuccin-theme)
+
+  (setq catppuccin-flavor 'mocha)
+  (catppuccin-reload)
+
+  (load-theme 'catppuccin t)
+
+#+end_src
+
 
 
 
