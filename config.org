@@ -411,7 +411,11 @@ Funções úteis:
 	  which-key-separator " → " )
 #+end_src
 
+**
 
+#+begin_src emacs-lisp
+  (use-package diminish :ensure t)
+#+end_src
 
 
 
