@@ -82,7 +82,9 @@
 ** Diretório dos arquivos de backup
    
 #+begin_src emacs-lisp
-  (setq backup-directory-alist `(("." . "~/.esaves")))
+  (setq backup-directory-alist `((".*" . "/tmp/emacs/")))
+  (setq custom-file (locate-user-emacs-file "custom.el"))
+  (load custom-file 'noerror 'nomessage)
 #+end_src
 
 ** Tema
@@ -141,6 +143,14 @@
 #+begin_src emacs-lisp
   (electric-pair-mode 1)
 #+end_src
+
+** Atalhos de zoom
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-=") 'text-scale-increase)
+  (global-set-key (kbd "C--") 'text-scale-decrease)
+#+end_src
+
+
 
 * Instalação de Pacotes
 
