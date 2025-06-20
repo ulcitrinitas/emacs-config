@@ -294,7 +294,8 @@ git checkout dev
       :init
       (vertico-mode))
 
-    ;; Persist history over Emacs restarts. Vertico sorts by history position.
+
+  ;; Persist history over Emacs restarts. Vertico sorts by history position.
   (use-package savehist
       :init
       (savehist-mode))
@@ -351,7 +352,19 @@ git checkout dev
 
 #+end_src
 
+** Consult
 
+Funções úteis:
+
+- =consult-grep=: Grep recursivo.
+- =consult-find=: Busca recursiva de arquivos.
+- =consult-outline=: Busca entre cabeçalhos (outline).
+- =consult-line=: Busca entre as linhas do buffer.
+- =consult-buffer=: Circula entre os buffers abertos.
+
+#+begin_src emacs-lisp
+  (use-package consult)
+#+end_src
 
 
 
