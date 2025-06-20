@@ -490,12 +490,17 @@ Funções úteis:
         )
 #+end_src
 
+** Org mode
 
+*** Org tempo
 
+#+begin_src emacs-lisp
+  (require 'org-tempo)
+#+end_src
 
+#+begin_src emacs-lisp
 
-
-
+#+end_src
 
 
 
