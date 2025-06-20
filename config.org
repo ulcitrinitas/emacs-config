@@ -216,7 +216,7 @@
     )  
 #+end_src
 
-** Powerline
+** Doom modeline
 #+begin_src emacs-lisp
 
 (use-package doom-modeline
@@ -506,7 +506,6 @@ Funções úteis:
   (use-package consult)
 #+end_src
 
-
 ** Which key
 
 #+begin_src emacs-lisp
@@ -622,8 +621,8 @@ Evita o completar =<>= em org-mode para não atrapalhar os snippets de templates
   (require 'org-tempo)
 #+end_src
 
-
 *** Org Bullets
+
 
 #+begin_src emacs-lisp
     (add-hook 'org-mode-hook 'org-indent-mode)
@@ -633,48 +632,7 @@ Evita o completar =<>= em org-mode para não atrapalhar os snippets de templates
       (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
 #+end_src
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+** 
 
 
 
