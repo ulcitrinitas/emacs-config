@@ -92,3 +92,4 @@ custom.el
 .emacs-autoloads.el
 .emacs-pkg.el
 transient/
+.cache/
