@@ -10,8 +10,8 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    '(all-the-icons auto-package-update catppuccin-theme company
-                   company-box powerline spaceline spaceline-config
-                   telephone-line)))
+                   company-box flycheck powerline spaceline
+                   spaceline-config telephone-line)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -222,8 +222,19 @@
 
 #+end_src
 
+** Flycheck
+#+begin_src emacs-lisp
 
+  (use-package flycheck
+  :ensure t
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))
 
+#+end_src
+
+** Neotree
+#+begin_src emacs-lisp
+#+end_src
 
 
 
