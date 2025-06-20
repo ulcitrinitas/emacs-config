@@ -492,14 +492,39 @@ Funções úteis:
 
 ** Org mode
 
+*** Evita o fechamento de pares
+
+Evita o completar =<>= em org-mode para não atrapalhar os snippets de templates
+
+#+begin_src emacs-lisp
+  (add-hook 'org-mode-hook (lambda ()
+           (setq-local electric-pair-inhibit-predicate
+                   `(lambda (c)
+                  (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))))
+#+end_src
+
+*** Endentação de blocos
+
+#+begin_src emacs-lisp
+  (setq org-edit-src-content-indentation 0) ; zera a margem dos blocos
+  (electric-indent-mode -1)                 ; desliga a indentação automática
+#+end_src
+
 *** Org tempo
 
 #+begin_src emacs-lisp
   (require 'org-tempo)
 #+end_src
 
-#+begin_src emacs-lisp
 
+*** Org Bullets
+
+#+begin_src emacs-lisp
+    (add-hook 'org-mode-hook 'org-indent-mode)
+    (use-package org-bullets
+      :custom
+      (org-bullets-bullet-list '("▶" "▷" "◆" "◇" "▪" "▪" "▪"))
+      (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
 #+end_src
 
 
