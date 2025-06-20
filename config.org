@@ -152,6 +152,15 @@
   (global-set-key (kbd "C--") 'text-scale-decrease)
 #+end_src
 
+** Emacs Perfomace
+#+begin_src emacs-lisp
+
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq lsp-idle-delay 0.500)
+
+#+end_src
+
 * Instalação de Pacotes
 
 ** Incializa o package.el
