@@ -132,6 +132,16 @@
   (global-auto-revert-mode t)
 #+end_src
 
+** Prompt de confirmação
+#+begin_src emacs-lisp
+  (fset 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
+** Habilita o fechamento de pares
+#+begin_src emacs-lisp
+  (electric-pair-mode 1)
+#+end_src
+
 * Instalação de Pacotes
 
 ** Incializa o package.el
