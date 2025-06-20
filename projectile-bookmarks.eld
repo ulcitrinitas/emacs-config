@@ -1,1 +1,1 @@
-("~/.emacs.d/" "~/.config/home-manager/")
+("~/.emacs.d/" "/tmp/test_zig/" "~/.config/home-manager/")

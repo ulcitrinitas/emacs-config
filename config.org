@@ -18,6 +18,16 @@
   (setq inhibit-startup-message t)
 #+end_src
 
+** Emacs Perfomace
+#+begin_src emacs-lisp
+
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq lsp-idle-delay 0.500)
+
+#+end_src
+
+
 ** Configurações de interface
 
 #+begin_src emacs-lisp
@@ -152,14 +162,6 @@
   (global-set-key (kbd "C--") 'text-scale-decrease)
 #+end_src
 
-** Emacs Perfomace
-#+begin_src emacs-lisp
-
-(setq gc-cons-threshold 100000000)
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
-(setq lsp-idle-delay 0.500)
-
-#+end_src
 
 * Instalação de Pacotes
 
@@ -660,6 +662,13 @@ Evita o completar =<>= em org-mode para não atrapalhar os snippets de templates
 
 #+end_src
 
+*** Zig mode
+
+#+begin_src emacs-lisp
+
+(use-package zig-mode)
+
+#+end_src
 
 
 
