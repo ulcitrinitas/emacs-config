@@ -202,21 +202,26 @@
     (auto-package-update-at-time "21:00"))
 #+end_src
 
-** Pacote icones
+** Pacote de icones
 
 #+begin_src emacs-lisp
   (use-package all-the-icons
-  :if (display-graphic-p))
+    :if (display-graphic-p))
+  (use-package nerd-icons
+    ;; :custom
+    ;; The Nerd Font you want to use in GUI
+    ;; "Symbols Nerd Font Mono" is the default and is recommended
+    ;; but you can use any other Nerd Font if you want
+    ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
+    )  
 #+end_src
 
 ** Powerline
 #+begin_src emacs-lisp
 
-  (use-package powerline)
-  (use-package spaceline
-    :config
-    (spaceline-spacemacs-theme)
-   )
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode))
 
 #+end_src
 
@@ -234,16 +239,36 @@
   :hook (company-mode . company-box-mode))
 #+end_src
 
-** Catppucin theme
+** Themes
 
 #+begin_src emacs-lisp
 
   (use-package catppuccin-theme)
 
   (setq catppuccin-flavor 'mocha)
-  (catppuccin-reload)
+  ;(catppuccin-reload)
 
-  (load-theme 'catppuccin t)
+  ;(load-theme 'catppuccin t)
+
+  (use-package doom-themes
+  :ensure t
+  :custom
+  ;; Global settings (defaults)
+  (doom-themes-enable-bold t)   ; if nil, bold is universally disabled
+  (doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; for treemacs users
+  (doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  :config
+  (load-theme 'doom-tokyo-night t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (nerd-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  ;(doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 
 #+end_src
 
@@ -270,8 +295,8 @@ git checkout dev
 #+begin_src emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/neotree")
   (require 'neotree)
-
   (global-set-key [f8] 'neotree-toggle)
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 
 #+end_src
 
@@ -385,7 +410,6 @@ Funções úteis:
 	  which-key-allow-imprecise-window-fit nil
 	  which-key-separator " → " )
 #+end_src
-
 
 
 
