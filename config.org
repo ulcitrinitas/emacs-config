@@ -440,6 +440,23 @@ Funções úteis:
   (use-package magit)
 #+end_src
 
+** Projectile
+
+#+begin_src emacs-lisp
+  (use-package projectile
+  :diminish projectile-mode
+  :config
+  (projectile-mode))
+#+end_src
+
+** Dashboard
+
+#+begin_src emacs-lisp
+  (use-package dashboard
+    :config
+    (dashboard-setup-startup-hook)
+    )
+#+end_src
 
 
 
