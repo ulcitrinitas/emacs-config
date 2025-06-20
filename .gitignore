@@ -84,6 +84,8 @@ config.el
 
 neotree/
 
+custom.el
+
 
 
 
