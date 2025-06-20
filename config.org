@@ -127,6 +127,11 @@
   (setq-default indent-tabs-mode nil)
 #+end_src
 
+** Carrega alterações externas
+#+begin_src emacs-lisp
+  (global-auto-revert-mode t)
+#+end_src
+
 * Instalação de Pacotes
 
 ** Incializa o package.el
