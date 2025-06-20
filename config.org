@@ -104,7 +104,7 @@
 #+end_src
 
 ** Cria um buffer customizado na tela inicial
-#+begin_src emacs-lisp
+#+begin_example
    ;; Função pra criar um novo buffer
    (defun new-buffer()
       "Cria um novo buffer"
@@ -116,7 +116,7 @@
         citri/buf))
   (setq initial-major-mode 'prog-mode)
   (setq initial-buffer-choice 'new-buffer)
-#+end_src
+#+end_example
 
 ** Arquivos Recentes e salvamento do histórico
 #+begin_src emacs-lisp
@@ -151,8 +151,6 @@
   (global-set-key (kbd "C-=") 'text-scale-increase)
   (global-set-key (kbd "C--") 'text-scale-decrease)
 #+end_src
-
-
 
 * Instalação de Pacotes
 
@@ -255,7 +253,9 @@
   (use-package flycheck
   :ensure t
   :config
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+      (add-hook 'after-init-hook #'global-flycheck-mode)
+  :init
+      (global-flycheck-mode))
 
 #+end_src
 
