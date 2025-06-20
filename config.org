@@ -411,13 +411,19 @@ Funções úteis:
 	  which-key-separator " → " )
 #+end_src
 
-**
+** Diminish
 
 #+begin_src emacs-lisp
   (use-package diminish :ensure t)
 #+end_src
 
-
+** Rainbow Delimiters
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :init
+    (rainbow-delimiters-mode 1)
+    )
+#+end_src
 
 
 
