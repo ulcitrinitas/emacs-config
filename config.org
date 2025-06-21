@@ -249,11 +249,15 @@
  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
 
  ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
- :hook ((prog-mode . corfu-mode)
-         (shell-mode . corfu-mode)
-         (org-mode . corfu-mode)
-         (eshell-mode . corfu-mode))
-
+ ;; :hook ((prog-mode . corfu-mode)
+ ;;         (shell-mode . corfu-mode)
+ ;;         (org-mode . corfu-mode)
+ ;;         (eshell-mode . corfu-mode))
+ :config
+ (keymap-set corfu-map "RET" `( menu-item "" nil :filter
+                                 ,(lambda (&optional _)
+                                    (and (derived-mode-p 'eshell-mode 'comint-mode)
+                                         #'corfu-send))))
  :init
 
  ;; Recommended: Enable Corfu globally.  Recommended since many modes provide
