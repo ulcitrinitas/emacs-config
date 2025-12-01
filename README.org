@@ -1,0 +1,12 @@
+* Minhas configurações do emacs
+
+Para clonar o repositório
+
+#+begin_src shell
+
+git clone git@github.com:ulcitrinitas/emacs-config.git .emacs.d
+
+#+end_src
+
+<2025-12-01 seg>
+
