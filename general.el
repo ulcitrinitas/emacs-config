@@ -1,13 +1,22 @@
 (defvar elpaca-installer-version 0.11)
-  (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
-  (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
-  (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
-  (defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+  (defvar elpaca-directory
+    (expand-file-name "elpaca/" user-emacs-directory))
+  (defvar elpaca-builds-directory
+    (expand-file-name "builds/" elpaca-directory))
+  (defvar elpaca-repos-directory
+    (expand-file-name "repos/" elpaca-directory))
+  (defvar elpaca-order '(elpaca :repo
+                          "https://github.com/progfolio/elpaca.git"
                                 :ref nil :depth 1 :inherit ignore
-                                :files (:defaults "elpaca-test.el" (:exclude "extensions"))
-                                :build (:not elpaca--activate-package)))
-  (let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
-         (build (expand-file-name "elpaca/" elpaca-builds-directory))
+                                :files
+                                (:defaults "elpaca-test.el"
+                                           (:exclude "extensions"))
+                                :build
+                                (:not elpaca--activate-package)))
+  (let*
+      ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+         (build
+          (expand-file-name "elpaca/" elpaca-builds-directory))
          (order (cdr elpaca-order))
          (default-directory repo))
     (add-to-list 'load-path (if (file-exists-p build) build repo))
@@ -15,25 +24,50 @@
       (make-directory repo t)
       (when (<= emacs-major-version 28) (require 'subr-x))
       (condition-case-unless-debug err
-          (if-let* ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
-                    ((zerop (apply #'call-process `("git" nil ,buffer t "clone"
-                                                    ,@(when-let* ((depth (plist-get order :depth)))
-                                                        (list (format "--depth=%d" depth) "--no-single-branch"))
-                                                    ,(plist-get order :repo) ,repo))))
-                    ((zerop (call-process "git" nil buffer t "checkout"
-                                          (or (plist-get order :ref) "--"))))
-                    (emacs (concat invocation-directory invocation-name))
-                    ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
-                                          "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+          (if-let*
+              ((buffer
+                (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+                    ((zerop (apply #'call-process `("git" nil
+                                                    ,buffer t
+                                                    "clone"
+                                                    ,@(when-let*
+                                                          ((depth
+                                                            (plist-get
+                                                             order
+                                                             :depth)))
+                                                        (list
+                                                         (format
+                                                          "--depth=%d"
+                                                          depth)
+                                                         "--no-single-branch"))
+                                                    ,(plist-get
+                                                      order :repo)
+                                                    ,repo))))
+                    ((zerop (call-process "git" nil buffer t
+                                          "checkout"
+                                          (or
+                                           (plist-get order :ref)
+                                           "--"))))
+                    (emacs
+                     (concat invocation-directory invocation-name))
+                    ((zerop (call-process emacs nil buffer nil
+                                          "-Q" "-L" "." "--batch"
+                                          "--eval"
+                                          "(byte-recompile-directory \".\" 0 'force)")))
                     ((require 'elpaca))
                     ((elpaca-generate-autoloads "elpaca" repo)))
-              (progn (message "%s" (buffer-string)) (kill-buffer buffer))
-            (error "%s" (with-current-buffer buffer (buffer-string))))
-        ((error) (warn "%s" err) (delete-directory repo 'recursive))))
+              (progn
+                (message "%s" (buffer-string))
+                (kill-buffer buffer))
+            (error "%s"
+                   (with-current-buffer buffer (buffer-string))))
+        ((error) (warn "%s" err)
+         (delete-directory repo 'recursive))))
     (unless (require 'elpaca-autoloads nil t)
       (require 'elpaca)
       (elpaca-generate-autoloads "elpaca" repo)
-      (let ((load-source-file-function nil)) (load "./elpaca-autoloads"))))
+      (let ((load-source-file-function nil))
+        (load "./elpaca-autoloads"))))
   (add-hook 'after-init-hook #'elpaca-process-queues)
   (elpaca `(,@elpaca-order))
 
@@ -64,14 +98,17 @@
 ;;Turns off elpaca-use-package-mode current declaration
 ;;Note this will cause evaluate the declaration immediately. It is not deferred.
 ;;Useful for configuring built-in emacs features.
-(use-package emacs :ensure nil :config (setq ring-bell-function #'ignore))
+(use-package emacs :ensure
+  nil :config (setq ring-bell-function #'ignore))
 
 (use-package all-the-icons
-  :ensure t
+  :ensure
+  t
   :if (display-graphic-p))
 
 (use-package all-the-icons-dired
-  :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
+  :hook
+  (dired-mode . (lambda () (all-the-icons-dired-mode t))))
 
 (set-face-attribute 'default nil
   :font "JetBrainsMono Nerd Font Mono"
@@ -96,7 +133,8 @@
 ;; This sets the default font on all graphical frames created after restarting Emacs.
 ;; Does the same thing as 'set-face-attribute default' above, but emacsclient fonts
 ;; are not right unless I also add this method of setting the default font.
-(add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font Mono-12"))
+(add-to-list 'default-frame-alist
+             '(font . "JetBrainsMono Nerd Font Mono-12"))
 
 ;; Uncomment the following line if line spacing needs adjusting.
 (setq-default line-spacing 0.12)
@@ -104,13 +142,16 @@
 (use-package diminish)
 
 (use-package general
-    :ensure t
+    :ensure
+    t
     :config
      (general-create-definer leader-def
-       :prefix "C-c")
+       :prefix
+       "C-c")
 
    (leader-def 
-;; Atalhos de arquivo
+;; Atalhos de
+     arquivo
     "f"  '(:ignore t :which-key "arquivos") ;; Grupo (requer which-key)
     "ff" 'find-file
     "fs" 'save-buffer
@@ -143,7 +184,8 @@
   )
 
 (use-package company
-  :defer 2
+  :defer
+  2
   :diminish
   :custom
   (company-begin-commands '(self-insert-command))
@@ -154,17 +196,20 @@
   (global-company-mode t))
 
 (use-package company-box
-  :after company
+  :after
+  company
   :diminish
   :hook (company-mode . company-box-mode))
 
 (use-package dashboard
-  :ensure t 
+  :ensure
+  t 
   :init
   (setq initial-buffer-choice 'dashboard-open)
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
-  (setq dashboard-banner-logo-title "Emacs Is More Than A Text Editor!")
+  (setq dashboard-banner-logo-title
+        "Emacs Is More Than A Text Editor!")
   (setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
   ;;(setq dashboard-startup-banner "/home/dt/.config/emacs/images/emacs-dash.png")  ;; use custom image as banner
   (setq dashboard-center-content nil) ;; set to 't' for centered content
@@ -180,13 +225,15 @@
   (dashboard-setup-startup-hook))
 
 (use-package flycheck
-:ensure t
+:ensure
+t
 :defer 1
 :diminish
 :init (global-flycheck-mode))
 
 (use-package counsel
-  :after ivy
+  :after
+  ivy
   :config (counsel-mode))
 
 (use-package ivy
@@ -202,11 +249,13 @@
   (ivy-mode))
 
 (use-package all-the-icons-ivy-rich
-  :ensure t
+  :ensure
+  t
   :init (all-the-icons-ivy-rich-mode 1))
 
 (use-package ivy-rich
-  :after ivy
+  :after
+  ivy
   :ensure t
   :init (ivy-rich-mode 1) ;; this gets us descriptions in M-x.
   :custom
@@ -230,7 +279,8 @@
 (global-visual-line-mode t)
 
 (use-package toc-org
-  :commands toc-org-enable
+  :commands
+  toc-org-enable
   :init (add-hook 'org-mode-hook 'toc-org-enable))
 
 (add-hook 'org-mode-hook 'org-indent-mode)
@@ -240,7 +290,8 @@
 (which-key-mode 1)
 
 (use-package catppuccin-theme
-:ensure t
+:ensure
+t
 :config
  (load-theme 'catppuccin t))
 
@@ -267,7 +318,8 @@
   ((org-mode prog-mode) . rainbow-mode))
 
 (use-package eshell-syntax-highlighting
-  :after esh-mode
+  :after
+  esh-mode
   :config
   (eshell-syntax-highlighting-global-mode +1))
 
@@ -276,7 +328,8 @@
 ;; eshell-aliases-file -- sets an aliases file for the eshell.
   
 (setq eshell-rc-script (concat user-emacs-directory "eshell/profile")
-      eshell-aliases-file (concat user-emacs-directory "eshell/aliases")
+      eshell-aliases-file
+      (concat user-emacs-directory "eshell/aliases")
       eshell-history-size 5000
       eshell-buffer-maximum-lines 5000
       eshell-hist-ignoredups t
@@ -290,7 +343,8 @@
       vterm-max-scrollback 5000))
 
 (use-package vterm-toggle
-  :after vterm
+  :after
+  vterm
   :bind ("<f5>" . vterm-toggle)
   :config
   (setq vterm-toggle-fullscreen-p nil)
@@ -300,8 +354,10 @@
                      (let ((buffer (get-buffer buffer-or-name)))
                        (with-current-buffer buffer
                          (or (equal major-mode 'vterm-mode)
-                             (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
-                  (display-buffer-reuse-window display-buffer-at-bottom)
+                             (string-prefix-p vterm-buffer-name
+                                              (buffer-name buffer))))))
+                  (display-buffer-reuse-window
+                   display-buffer-at-bottom)
                   ;;(display-buffer-reuse-window display-buffer-in-direction)
                   ;;display-buffer-in-direction/direction/dedicated is added in emacs27
                   ;;(direction . bottom)
@@ -310,14 +366,16 @@
                   (window-height . 0.3))))
 
 (use-package exec-path-from-shell
-  :ensure t
+  :ensure
+  t
   :config
   ;; Garante que o PATH e outras variáveis sejam copiadas do shell do sistema
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
 (use-package doom-modeline
-  :ensure t
+  :ensure
+  t
   :init (doom-modeline-mode 1))
   ;; :hook (after-init . doom-modeline-mode))
 
@@ -328,18 +386,24 @@
 (use-package lua-mode)
 
 (use-package elpy
-:ensure t
+:ensure
+t
 :init
 (elpy-enable))
 
 (use-package alchemist
 :config
 (setq 
-   alchemist-mix-command "~/.local/share/mise/installs/elixir/1.19.4-otp-28/bin/mix"
-   alchemist-execute-command "~/.local/share/mise/installs/elixir/1.19.4-otp-28/bin/elixir"
-   alchemist-iex-program-name "~/.local/share/mise/installs/elixir/1.19.4-otp-28/bin/iex"
+   alchemist-mix-command
+   "~/.local/share/mise/installs/elixir/1.19.4-otp-28/bin/mix"
+   alchemist-execute-command
+   "~/.local/share/mise/installs/elixir/1.19.4-otp-28/bin/elixir"
+   alchemist-iex-program-name
+   "~/.local/share/mise/installs/elixir/1.19.4-otp-28/bin/iex"
   
 ))
+
+(use-package elisp-autofmt)
 
 (use-package neotree
   :config
