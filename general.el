@@ -278,6 +278,8 @@ t
 (global-display-line-numbers-mode t)
 (global-visual-line-mode t)
 
+(setq backup-directory-alist '((".*" . "~/.Trash")))
+
 (use-package toc-org
   :commands
   toc-org-enable
