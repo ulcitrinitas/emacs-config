@@ -548,6 +548,20 @@ sincroniza as variáveis de ambiente
 
 #+end_src
 
+*** Elixir
+
+#+begin_src emacs-lisp
+
+(use-package alchemist
+:config
+(setq 
+   alchemist-mix-command "~/.local/share/mise/installs/elixir/1.19.4-otp-28/bin/mix"
+   alchemist-execute-command "~/.local/share/mise/installs/elixir/1.19.4-otp-28/bin/elixir"
+   alchemist-iex-program-name "~/.local/share/mise/installs/elixir/1.19.4-otp-28/bin/iex"
+  
+))
+
+#+end_src
 
 
 ** Neotree

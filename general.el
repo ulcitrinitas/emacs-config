@@ -332,6 +332,15 @@
 :init
 (elpy-enable))
 
+(use-package alchemist
+:config
+(setq 
+   alchemist-mix-command "~/.local/share/mise/installs/elixir/1.19.4-otp-28/bin/mix"
+   alchemist-execute-command "~/.local/share/mise/installs/elixir/1.19.4-otp-28/bin/elixir"
+   alchemist-iex-program-name "~/.local/share/mise/installs/elixir/1.19.4-otp-28/bin/iex"
+  
+))
+
 (use-package neotree
   :config
   (setq neo-smart-open t
