@@ -8,6 +8,10 @@
   - [[#dashboard][Dashboard]]
   - [[#flycheck][Flycheck]]
   - [[#ivy-counsel][Ivy (Counsel)]]
+  - [[#marginalia][Marginalia]]
+  - [[#vertico][Vertico]]
+  - [[#ordeless][Ordeless]]
+  - [[#consult][Consult]]
   - [[#configurações-do-emacs][Configurações do emacs]]
   - [[#org-mode][Org mode]]
   - [[#tema][Tema]]
@@ -314,7 +318,7 @@ t
 - Counsel, coleção de scripts do ivy dos comandos do emacs
 - Ivy-rich, adiciona descrições aos buffers do ivy
 
-#+begin_src emacs-lisp
+#+begin_src example
 (use-package counsel
   :after
   ivy
@@ -351,10 +355,7 @@ t
                                'ivy-rich-switch-buffer-transformer))
 
 
-#+end_src
-
-
-
+#+end_example
 *** aumentar ou diminuir a fonte
 
 #+begin_src emacs-lisp
@@ -362,6 +363,93 @@ t
   (global-set-key (kbd "C--") 'text-scale-decrease)
   (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
   (global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
+#+end_src
+
+** Marginalia
+
+#+begin_src emacs-lisp
+
+;; Enable rich annotations using the Marginalia package
+(use-package marginalia
+  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+  ;; available in the *Completions* buffer, add it to the
+  ;; `completion-list-mode-map'.
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+
+  ;; The :init section is always executed.
+  :init
+
+  ;; Marginalia must be activated in the :init section of use-package such that
+  ;; the mode gets enabled right away. Note that this forces loading the
+  ;; package.
+  (marginalia-mode))
+
+#+end_src
+
+** Vertico
+#+begin_src emacs-lisp
+
+;; Enable Vertico.
+(use-package vertico
+  :custom
+   (vertico-scroll-margin 0) ;; Different scroll margin
+   (vertico-count 20) ;; Show more candidates
+   (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
+   (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
+  :init
+  (vertico-mode))
+
+#+end_src
+
+*** Complementos do vertico
+
+#+begin_src emacs-lisp
+
+  ;; Persist history over Emacs restarts. Vertico sorts by history position.
+(use-package savehist
+  :init
+  (savehist-mode))
+
+;; Emacs minibuffer configurations.
+(use-package emacs
+  :custom
+  ;; Enable context menu. `vertico-multiform-mode' adds a menu in the minibuffer
+  ;; to switch display modes.
+  (context-menu-mode t)
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (enable-recursive-minibuffers t)
+  ;; Hide commands in M-x which do not work in the current mode.  Vertico
+  ;; commands are hidden in normal buffers. This setting is useful beyond
+  ;; Vertico.
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  ;; Do not allow the cursor in the minibuffer prompt
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt)))
+
+#+end_src
+
+
+** Ordeless
+
+#+begin_src emacs-lisp
+
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles partial-completion))))
+  (completion-pcm-leading-wildcard t)) ;; Emacs 31: partial-completion behaves like substring
+
+#+end_src
+
+
+** Consult
+
+#+begin_src emacs-lisp
+
+(use-package consult)
+
 #+end_src
 
 ** Configurações do emacs
@@ -385,6 +473,88 @@ t
 #+begin_src emacs-lisp
 
 (setq backup-directory-alist '((".*" . "~/.Trash")))
+
+#+end_src
+
+*** Altera as tabulações para espaços
+
+#+begin_src emacs-lisp
+
+;; espaços ao invés de tabs
+(setq-default indent-tabs-mode nil)
+
+#+end_src
+
+*** Alertas visuais e espaçamento das bordas visuais
+
+#+begin_src emacs-lisp
+
+;; alerta visual
+(setq visible-bell t)
+
+;; espaçamento das bordas laterais
+(set-fringe-mode 10)
+
+#+end_src
+
+*** Hablita o auto-fechamento dos pares (Ex: [], (), {})
+
+#+begin_src emacs-lisp
+
+;; habilita o fechamento de pares
+(electric-pair-mode 1)
+
+#+end_src
+
+*** Habilita para sair do mini-buffer com <esc>
+
+#+begin_src emacs-lisp
+
+;; sai do mini buffer com esc
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+#+end_src
+
+*** Rolagem suave
+
+#+begin_src emacs-lisp
+
+;; Rolagem mais suave
+(setq mouse-wheel-scroll-amount '(5 ((shift) . 1)) ;; 2 linhas por vez
+   mouse-wheel-progressive-speed nil ;; Não acelera a rolagem
+   mouse-wheel-follow-mouse 't ;; rola a janela do mouse
+;; rola 1 linha com teclado
+   scroll-step 5)
+
+#+end_src
+
+*** Ajustes para facilitar o emacs
+
+#+begin_src emacs-lisp
+
+;; ajustes para facilitar
+(global-unset-key (kbd "C-z")) ;; desabilita o suspend-frame (C-z)
+(delete-selection-mode t) ;; o texto digitado substitui a seleção
+
+#+end_src
+
+*** Habilita as quebras de linhas muito longas
+
+#+begin_src emacs-lisp
+
+(global-visual-line-mode 1)
+
+#+end_src
+
+*** Altera o formato do cursor
+
+#+begin_src emacs-lisp
+
+(setq-default cursor-type 'bar)
+
+#+end_src
+
+#+begin_src emacs-lisp
 
 #+end_src
 

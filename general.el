@@ -231,45 +231,61 @@ t
 :diminish
 :init (global-flycheck-mode))
 
-(use-package counsel
-  :after
-  ivy
-  :config (counsel-mode))
+;; Enable rich annotations using the Marginalia package
+(use-package marginalia
+  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+  ;; available in the *Completions* buffer, add it to the
+  ;; `completion-list-mode-map'.
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
 
-(use-package ivy
-  :bind
-  ;; ivy-resume resumes the last Ivy-based completion.
-  (("C-c C-r" . ivy-resume)
-   ("C-x B" . ivy-switch-buffer-other-window))
+  ;; The :init section is always executed.
+  :init
+
+  ;; Marginalia must be activated in the :init section of use-package such that
+  ;; the mode gets enabled right away. Note that this forces loading the
+  ;; package.
+  (marginalia-mode))
+
+;; Enable Vertico.
+(use-package vertico
   :custom
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-count-format "(%d/%d) ")
-  (setq enable-recursive-minibuffers t)
-  :config
-  (ivy-mode))
+   (vertico-scroll-margin 0) ;; Different scroll margin
+   (vertico-count 20) ;; Show more candidates
+   (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
+   (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
+  :init
+  (vertico-mode))
 
-(use-package all-the-icons-ivy-rich
-  :ensure
-  t
-  :init (all-the-icons-ivy-rich-mode 1))
+;; Persist history over Emacs restarts. Vertico sorts by history position.
+(use-package savehist
+  :init
+  (savehist-mode))
 
-(use-package ivy-rich
-  :after
-  ivy
+;; Emacs minibuffer configurations.
+(use-package emacs
+  :custom
+  ;; Enable context menu. `vertico-multiform-mode' adds a menu in the minibuffer
+  ;; to switch display modes.
+  (context-menu-mode t)
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (enable-recursive-minibuffers t)
+  ;; Hide commands in M-x which do not work in the current mode.  Vertico
+  ;; commands are hidden in normal buffers. This setting is useful beyond
+  ;; Vertico.
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  ;; Do not allow the cursor in the minibuffer prompt
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt)))
+
+(use-package orderless
   :ensure t
-  :init (ivy-rich-mode 1) ;; this gets us descriptions in M-x.
   :custom
-  (ivy-virtual-abbreviate 'full
-   ivy-rich-switch-buffer-align-virtual-buffer t
-   ivy-rich-path-style 'abbrev)
-  :config
-  (ivy-set-display-transformer 'ivy-switch-buffer
-                               'ivy-rich-switch-buffer-transformer))
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles partial-completion))))
+  (completion-pcm-leading-wildcard t)) ;; Emacs 31: partial-completion behaves like substring
 
-(global-set-key (kbd "C-=") 'text-scale-increase)
-(global-set-key (kbd "C--") 'text-scale-decrease)
-(global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
-(global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
+(use-package consult)
 
 (menu-bar-mode 1)
 (tool-bar-mode -1)
@@ -279,6 +295,38 @@ t
 (global-visual-line-mode t)
 
 (setq backup-directory-alist '((".*" . "~/.Trash")))
+
+;; espaços ao invés de tabs
+(setq-default indent-tabs-mode nil)
+
+;; alerta visual
+(setq visible-bell t)
+
+;; espaçamento das bordas laterais
+(set-fringe-mode 10)
+
+;; habilita o fechamento de pares
+(electric-pair-mode 1)
+
+;; sai do mini buffer com esc
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+;; Rolagem mais suave
+(setq mouse-wheel-scroll-amount '(5 ((shift) . 1)) ;; 2 linhas por vez
+   mouse-wheel-progressive-speed nil ;; Não acelera a rolagem
+   mouse-wheel-follow-mouse 't ;; rola a janela do mouse
+;; rola 1 linha com teclado
+   scroll-step 5)
+
+;; ajustes para facilitar
+(global-unset-key (kbd "C-z")) ;; desabilita o suspend-frame (C-z)
+(delete-selection-mode t) ;; o texto digitado substitui a seleção
+
+(global-visual-line-mode 1)
+
+(setq-default cursor-type 'bar)
+
+
 
 (use-package toc-org
   :commands
