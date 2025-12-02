@@ -231,61 +231,45 @@ t
 :diminish
 :init (global-flycheck-mode))
 
-;; Enable rich annotations using the Marginalia package
-(use-package marginalia
-  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
-  ;; available in the *Completions* buffer, add it to the
-  ;; `completion-list-mode-map'.
-  :bind (:map minibuffer-local-map
-         ("M-A" . marginalia-cycle))
+(use-package counsel
+  :after
+  ivy
+  :config (counsel-mode))
 
-  ;; The :init section is always executed.
-  :init
-
-  ;; Marginalia must be activated in the :init section of use-package such that
-  ;; the mode gets enabled right away. Note that this forces loading the
-  ;; package.
-  (marginalia-mode))
-
-;; Enable Vertico.
-(use-package vertico
+(use-package ivy
+  :bind
+  ;; ivy-resume resumes the last Ivy-based completion.
+  (("C-c C-r" . ivy-resume)
+   ("C-x B" . ivy-switch-buffer-other-window))
   :custom
-   (vertico-scroll-margin 0) ;; Different scroll margin
-   (vertico-count 20) ;; Show more candidates
-   (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
-   (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
-  :init
-  (vertico-mode))
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "(%d/%d) ")
+  (setq enable-recursive-minibuffers t)
+  :config
+  (ivy-mode))
 
-;; Persist history over Emacs restarts. Vertico sorts by history position.
-(use-package savehist
-  :init
-  (savehist-mode))
+(use-package all-the-icons-ivy-rich
+  :ensure
+  t
+  :init (all-the-icons-ivy-rich-mode 1))
 
-;; Emacs minibuffer configurations.
-(use-package emacs
-  :custom
-  ;; Enable context menu. `vertico-multiform-mode' adds a menu in the minibuffer
-  ;; to switch display modes.
-  (context-menu-mode t)
-  ;; Support opening new minibuffers from inside existing minibuffers.
-  (enable-recursive-minibuffers t)
-  ;; Hide commands in M-x which do not work in the current mode.  Vertico
-  ;; commands are hidden in normal buffers. This setting is useful beyond
-  ;; Vertico.
-  (read-extended-command-predicate #'command-completion-default-include-p)
-  ;; Do not allow the cursor in the minibuffer prompt
-  (minibuffer-prompt-properties
-   '(read-only t cursor-intangible t face minibuffer-prompt)))
-
-(use-package orderless
+(use-package ivy-rich
+  :after
+  ivy
   :ensure t
+  :init (ivy-rich-mode 1) ;; this gets us descriptions in M-x.
   :custom
-  (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles partial-completion))))
-  (completion-pcm-leading-wildcard t)) ;; Emacs 31: partial-completion behaves like substring
+  (ivy-virtual-abbreviate 'full
+   ivy-rich-switch-buffer-align-virtual-buffer t
+   ivy-rich-path-style 'abbrev)
+  :config
+  (ivy-set-display-transformer 'ivy-switch-buffer
+                               'ivy-rich-switch-buffer-transformer))
 
-(use-package consult)
+(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
+(global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
 
 (menu-bar-mode 1)
 (tool-bar-mode -1)

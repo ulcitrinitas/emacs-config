@@ -263,7 +263,7 @@
 
 #+begin_src emacs-lisp
 
-  ;; Enable Vertico.
+;; Enable Vertico.
 (use-package vertico
   :custom
    (vertico-scroll-margin 0) ;; Different scroll margin
@@ -320,7 +320,7 @@
 
 #+end_src
 
-*** Flycheck
+** Flycheck
 #+begin_src emacs-lisp
 
   (use-package flycheck

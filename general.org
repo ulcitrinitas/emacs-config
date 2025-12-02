@@ -31,7 +31,6 @@
 
 *** Elpaca
 
-
 #+begin_src emacs-lisp
 
       (defvar elpaca-installer-version 0.11)
@@ -318,7 +317,7 @@ t
 - Counsel, coleção de scripts do ivy dos comandos do emacs
 - Ivy-rich, adiciona descrições aos buffers do ivy
 
-#+begin_src example
+#+begin_src emacs-lisp
 (use-package counsel
   :after
   ivy
@@ -355,7 +354,7 @@ t
                                'ivy-rich-switch-buffer-transformer))
 
 
-#+end_example
+#+end_src
 *** aumentar ou diminuir a fonte
 
 #+begin_src emacs-lisp
@@ -367,7 +366,7 @@ t
 
 ** Marginalia
 
-#+begin_src emacs-lisp
+#+begin_example emacs-lisp
 
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
@@ -385,10 +384,10 @@ t
   ;; package.
   (marginalia-mode))
 
-#+end_src
+#+end_example
 
 ** Vertico
-#+begin_src emacs-lisp
+#+begin_example emacs-lisp
 
 ;; Enable Vertico.
 (use-package vertico
@@ -400,11 +399,11 @@ t
   :init
   (vertico-mode))
 
-#+end_src
+#+end_example
 
 *** Complementos do vertico
 
-#+begin_src emacs-lisp
+#+begin_example emacs-lisp
 
   ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
@@ -427,12 +426,12 @@ t
   (minibuffer-prompt-properties
    '(read-only t cursor-intangible t face minibuffer-prompt)))
 
-#+end_src
+#+end_example
 
 
 ** Ordeless
 
-#+begin_src emacs-lisp
+#+begin_example emacs-lisp
 
 (use-package orderless
   :ensure t
@@ -441,16 +440,16 @@ t
   (completion-category-overrides '((file (styles partial-completion))))
   (completion-pcm-leading-wildcard t)) ;; Emacs 31: partial-completion behaves like substring
 
-#+end_src
+#+end_example
 
 
 ** Consult
 
-#+begin_src emacs-lisp
+#+begin_example emacs-lisp
 
 (use-package consult)
 
-#+end_src
+#+end_example
 
 ** Configurações do emacs
 
